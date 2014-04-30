@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Flynsarmy Subcategory List Widget
- * @version 1.0.1
+ * @version 1.1
  *
  * Plugin Name: Flynsarmy Subcategory List Widget
  * Description: Adds various category widgets

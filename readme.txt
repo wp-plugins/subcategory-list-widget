@@ -24,11 +24,11 @@ Adds a widget that can displays subcategories of a given category (or top level)
 
 == Changelog ==
 
-= 1.0.1 =
+= 1.1 =
 
 April 30, 2014
 
-* Tested with WP 3.9
+* Code cleanup, Tested with WP 3.9
 
 = 1.0.0 =
 
