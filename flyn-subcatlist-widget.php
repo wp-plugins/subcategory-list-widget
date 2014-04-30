@@ -1,14 +1,12 @@
 <?php
-/**
- * @package Flynsarmy Subcategory List Widget
- * @version 1.1
- *
- * Plugin Name: Flynsarmy Subcategory List Widget
- * Description: Adds various category widgets
- * Author: Flynsarmy
- * Version: 0.1
- * Author URI: http://www.flynsarmy.com
- */
+/*
+Plugin Name: Flynsarmy Subcategory List Widget
+Plugin URI: http://www.flynsarmy.com
+Description: Adds a customisable widget to display subcategory lists
+Version: 1.1
+Author: Flyn San
+Author URI: http://www.flynsarmy.com
+*/
 
 /**
  * Protection
