@@ -99,7 +99,7 @@ class FlynCW_SubcatWidget extends WP_Widget
 				'desc' => '',
 				'id' => 'title',
 				'type' => 'text',
-				'std' => ''
+				'std' => 'Categories'
 			),
 			array(
 				'name' => 'Show subcategories of',
@@ -125,11 +125,14 @@ class FlynCW_SubcatWidget extends WP_Widget
 				'desc' => 'Show number of posts in each category?',
 				'id' => 'show_counts',
 				'type' => "checkbox",
+				'options' => array(1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5),
 			),
 			array(
-				'name' => 'Hide empty subcategories?',
+				'name' => 'Hide empty categories?',
+				'desc' => 'Should categories with no posts be hidden?',
 				'id' => 'hide_empty',
 				'type' => "checkbox",
+				'options' => array(0 => 'No', 1 => 'Yes'),
 			),
 			array(
 				'name' => 'Exclude categories',
@@ -139,6 +142,13 @@ class FlynCW_SubcatWidget extends WP_Widget
 				'options' => array(
 
 				),
+				'std' => ''
+			),
+			array(
+				'name' => 'Walker',
+				'desc' => "Name of custom walker class to use. If you don't know what this is, leave it blank!",
+				'id' => 'walker',
+				'type' => "text",
 				'std' => ''
 			)
 		);
@@ -199,6 +209,11 @@ class FlynCW_SubcatWidget extends WP_Widget
 	 * @param array $sidebar
 	 */
 	function getViewFile($widget, $params, $sidebar) {
+		if ( !empty($params['walker']) && class_exists($params['walker']) )
+			$params['walker'] = new $params['walker'];
+		else
+			$params['walker'] = null;
+
 		require dirname(__FILE__).'/'.$this->widget['view'];
 	}
 
@@ -292,30 +307,30 @@ class FlynCW_SubcatWidget extends WP_Widget
 					wp_dropdown_categories( $field['options'] );
 					break;
 				case 'wp_category_checklist':
+					// Just show category names. No links, nothing special or fancy
 					require_once __DIR__.'/includes/walker_named_category_checklist.php';
 					$walker = new Walker_Named_Category_Checklist(array(
 						'name' => $this->get_field_name($field['id']),
 					));
 
 					?>
-					<style>
-						.wp_category_checklist {overflow:auto;max-height:200px}
-						.wp_category_checklist ul ul {margin-left:15px;}
+					<style type="text/css">
+						.wp_category_checklist {overflow:auto;height:200px;border:1px solid #ddd;padding:5px 8px 5px;}
+						.wp_category_checklist ul {margin:0;}
+						.wp_category_checklist ul ul {margin-left:10px;margin-top:5px;}
 					</style>
-
 					<!--
 						This hidden field is required so that when no checklist
 						checkboxes below are selected, a dummy will be used and
 						it won't just ignore the result
 					-->
 					<input type="hidden" name="<?= $this->get_field_name($field['id']) ?>[]" value="-1" />
-
 					<div class="wp_category_checklist">
-						<span class="description"><?= @$field['desc'] ?></span>'
 						<ul>
 							<?php wp_category_checklist(0, 0, (array)$meta, false, $walker, false); ?>
 						</ul>
 					</div>
+					<span class="description" style="display:block;"><?= @$field['desc'] ?></span>
 					<?php
 				case 'custom':
 					echo $field['std'];
